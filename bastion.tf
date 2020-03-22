@@ -1,11 +1,11 @@
 resource "aws_default_vpc" "default" {}
 
 resource "aws_instance" "bastion" {
-  ami                         = "ami-1d4e7a66"
-  key_name                    = aws_key_pair.bastion_key.key_name
-  instance_type               = "t2.micro"
-  security_groups             = [
-    aws_security_group.bastion-sg.name]
+  ami           = "ami-1d4e7a66"
+  key_name      = aws_key_pair.bastion_key.key_name
+  instance_type = "t2.micro"
+  security_groups = [
+  aws_security_group.bastion-sg.name]
   associate_public_ip_address = true
 }
 
