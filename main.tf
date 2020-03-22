@@ -2,8 +2,6 @@ provider "aws" {
   region = "us-east-2"
 }
 
-
-
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count                        = 2
   identifier                   = "${var.cluster_name}-instance-${count.index}"
@@ -26,7 +24,7 @@ resource "aws_rds_cluster" "cluster" {
   deletion_protection             = false
   engine                          = "aurora"
   engine_version                  = ""
-  db_cluster_parameter_group_name = "keboola-aurora"
+  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.aurora-row-binlogs.name
 }
 
 resource "aws_rds_cluster_parameter_group" "aurora-row-binlogs" {
