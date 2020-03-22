@@ -1,31 +1,46 @@
 provider "aws" {
-  region = "us-west-1"
+  region = "us-east-2"
 }
 
-locals {
-  create_vpc = "${var.vpc_id == "" ? 1 : 0}"
+resource "aws_rds_cluster_instance" "cluster_instances" {
+  count                        = 2
+  identifier                   = "${var.cluster_name}-instance-${count.index}"
+  cluster_identifier           = aws_rds_cluster.cluster.id
+  instance_class               = var.instance_class
+  engine                       = "aurora"
+  publicly_accessible          = true
+  db_parameter_group_name      = "keboola-aurora"
+  apply_immediately            = true
+  performance_insights_enabled = false
 }
 
-data "aws_vpc" "selected" {
-  count = "${1 - local.create_vpc}"
-
-  id = "${var.vpc_id}"
+resource "aws_rds_cluster" "cluster" {
+  cluster_identifier     = var.cluster_name
+  database_name          = "multi_site"
+  master_username        = var.username
+  master_password        = var.password
+  availability_zones     = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  vpc_security_group_ids = [aws_security_group.aurora-sg.id]
+  skip_final_snapshot    = true
+  deletion_protection    = false
+  engine                 = "aurora"
 }
 
-resource "aws_vpc" "this" {
-  count = "${local.create_vpc}"
+resource "aws_security_group" "aurora-sg" {
+  name   = "aurora-security-group"
+  vpc_id = aws_default_vpc.default.id
 
-  cidr_block = "${var.cidr}"
-}
+  ingress {
+    protocol    = "tcp"
+    from_port   = 3306
+    to_port     = 3306
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-resource "aws_internet_gateway" "selected" {
-  count = "${1 - local.create_vpc}"
-
-  vpc_id = "${data.aws_vpc.selected.id}"
-}
-
-resource "aws_internet_gateway" "this" {
-  count = "${local.create_vpc}"
-
-  vpc_id = "${aws_vpc.this.id}"
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
