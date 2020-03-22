@@ -32,8 +32,9 @@ resource "aws_rds_cluster_parameter_group" "aurora-row-binlogs" {
   name        = "aurora-row-binlogs-pg"
   description = "RDS row-based binary logging cluster parameter group"
   parameter {
-    name  = "binlog_format"
-    value = "ROW"
+    apply_method = "pending-reboot"
+    name         = "binlog_format"
+    value        = "ROW"
   }
 }
 
