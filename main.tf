@@ -2,6 +2,8 @@ provider "aws" {
   region = "us-east-2"
 }
 
+
+
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count                        = 2
   identifier                   = "${var.cluster_name}-instance-${count.index}"
@@ -23,7 +25,18 @@ resource "aws_rds_cluster" "cluster" {
   skip_final_snapshot             = true
   deletion_protection             = false
   engine                          = "aurora"
+  engine_version                  = ""
   db_cluster_parameter_group_name = "keboola-aurora"
+}
+
+resource "aws_rds_cluster_parameter_group" "aurora-row-binlogs" {
+  family      = "aurora5.6"
+  name        = "aurora-row-binlogs-pg"
+  description = "RDS row-based binary logging cluster parameter group"
+  parameter {
+    name  = "binlog_format"
+    value = "ROW"
+  }
 }
 
 resource "aws_security_group" "aurora-sg" {

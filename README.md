@@ -1,4 +1,4 @@
-# Small-size infrastructure using Terraform
+# Aurora 
 
 This directory contains code as an example of structuring Terraform configurations for a small-size infrastructure, where no external dependencies were used.
 

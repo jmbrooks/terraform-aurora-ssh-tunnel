@@ -1,7 +1,7 @@
 resource "aws_default_vpc" "default" {}
 
 resource "aws_instance" "bastion" {
-  ami           = "ami-1d4e7a66"
+  ami           = "ami-0e01ce4ee18447327"
   key_name      = aws_key_pair.bastion_key.key_name
   instance_type = "t2.micro"
   security_groups = [

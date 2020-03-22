@@ -2,6 +2,8 @@
 venv/
 
 # Terraform
-.terraform/
-*.lock.info
+*.terraform/
+*.tfstate.lock.info
 *.tfstate
+*.tfstate.backup
+*.tfvars
