@@ -9,21 +9,21 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   instance_class               = var.instance_class
   engine                       = "aurora"
   publicly_accessible          = true
-  db_parameter_group_name      = "keboola-aurora"
   apply_immediately            = true
   performance_insights_enabled = false
 }
 
 resource "aws_rds_cluster" "cluster" {
-  cluster_identifier     = var.cluster_name
-  database_name          = "multi_site"
-  master_username        = var.username
-  master_password        = var.password
-  availability_zones     = ["us-east-2a", "us-east-2b", "us-east-2c"]
-  vpc_security_group_ids = [aws_security_group.aurora-sg.id]
-  skip_final_snapshot    = true
-  deletion_protection    = false
-  engine                 = "aurora"
+  cluster_identifier              = var.cluster_name
+  database_name                   = "multi_site"
+  master_username                 = var.username
+  master_password                 = var.password
+  availability_zones              = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  vpc_security_group_ids          = [aws_security_group.aurora-sg.id]
+  skip_final_snapshot             = true
+  deletion_protection             = false
+  engine                          = "aurora"
+  db_cluster_parameter_group_name = "keboola-aurora"
 }
 
 resource "aws_security_group" "aurora-sg" {
