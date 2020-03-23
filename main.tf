@@ -6,9 +6,9 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   count                        = 2
   identifier                   = "${var.cluster_name}-instance-${count.index}"
   cluster_identifier           = aws_rds_cluster.cluster.id
-  instance_class               = var.instance_class
+  instance_class               = var.cluster_instance_class
   engine                       = "aurora"
-  publicly_accessible          = true
+  publicly_accessible          = var.cluster_is_publicly_accessible
   apply_immediately            = true
   performance_insights_enabled = false
 }
@@ -16,8 +16,8 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
 resource "aws_rds_cluster" "cluster" {
   cluster_identifier              = var.cluster_name
   database_name                   = "multi_site"
-  master_username                 = var.username
-  master_password                 = var.password
+  master_username                 = var.cluster_username
+  master_password                 = var.cluster_password
   availability_zones              = ["us-east-2a", "us-east-2b", "us-east-2c"]
   vpc_security_group_ids          = [aws_security_group.aurora-sg.id]
   skip_final_snapshot             = true
