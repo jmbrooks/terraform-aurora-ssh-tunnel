@@ -12,6 +12,15 @@ variable "username" {
   default     = "admin"
 }
 
+variable "bastion_key_name" {
+  description = "The name of the AWS key pair you will use to connect to the bastion host"
+  default     = "ec2-tunnel-sample"
+}
+
+variable "bastion_key_pair_public_key" {
+  description = "The public key for the AWS key pair you will use to connect to the bastion host"
+}
+
 variable "password" {
   description = "Password for the cluster instance login"
 }

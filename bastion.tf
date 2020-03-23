@@ -36,6 +36,6 @@ resource "aws_security_group" "bastion-sg" {
 }
 
 resource "aws_key_pair" "bastion_key" {
-  key_name   = "tf-ec2-app"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3Xmnd8M5UUQKkYCU4EaB56RwdldGI3mNdMnewJZtfNqJrkNCO7olBypvGrg2A+etyt0qp+3Fp0Qd7CylaCpS7oMv6dYIgV/K8/sYdwZ03uR7JNWyjcl1mm+z1eQIoM7fAiPfBOEXqc3vK4pR/eqwHVSqvMZy+f7V9FfL9GhsMZW1XBEl9QH0n1fJ2EIwTdliOX81NFgMrTKDDdxH6Owxuyw6/ukCaC8qrpZHQIFq3W5VHGwT9nA5RjKoEfd+MzyoQc5+aD8O5DDvEuMA/Og2mN5kDY1tk5MnTTMl9GeMfUnfLYByHId1Pm8AFCCw26ihoSKwYeswy23+SolqGZrFz johnathanbrooks@Johnathans-MacBook-Pro.local"
+  key_name   = var.bastion_key_name
+  public_key = var.bastion_key_pair_public_key
 }
